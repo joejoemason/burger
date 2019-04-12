@@ -15,7 +15,7 @@ const orm = {
         });
     },
     insertOne: function (burgerName, cb) {
-        const sqlQuery = `INSERT INTO burgers(burger_name) VALUES('${burgerName}')`;
+        const sqlQuery = `INSERT INTO burgers(burger_name, devoured) VALUES('${burgerName}', 0)`;
         connection.query(sqlQuery, function (err, data) {
             if (err) cb(err, null);
             cb(null, data);
@@ -23,7 +23,7 @@ const orm = {
     },
 
     updateOne: function (condition, id, cb) {
-        const sqlQuery = `UPDATE burgers SET is_favorite = ${condition} WHERE id = ${id}`;
+        const sqlQuery = `UPDATE burgers SET devoured = ${condition} WHERE id = ${id}`;
         connection.query(sqlQuery, function (err, data) {
             if (err) cb(err, null);
             cb(null, data)

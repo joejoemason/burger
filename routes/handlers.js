@@ -19,8 +19,8 @@ router.get("/", function (req, res) {
     });
 });
 
-router.get("/favorites", function (req, res) {
-    orm.selectAllBy('is_favorite', false, function (error, result) {
+router.get("/", function (req, res) {
+    orm.selectAllBy('devoured', false, function (error, result) {
         if (error) {
             return res.render('error');
         }
@@ -31,37 +31,24 @@ router.get("/favorites", function (req, res) {
         });
     });
 });
-router.get('/all', (req, res) => {
-    orm.selectAll(function (error, result) {
-        if (error) {
-            return res.render('error');
-        }
-        res.render("allBurgers", {
-            result: result,
-            style: 'all',
-            title: 'View all burgers'
-        });
-    });
-});
-
-
 
 // Adding and Update burger section
 router.post("/add", function (req, res) {
     const burgerName = req.body.burger_name;
-    const isFavorite = req.body.isFavorite;
+    // const isFavorite = req.body.isFavorite;
 
-    orm.insertOne(burgerName, function (error, burger) {
+    orm.insertOne(burgerName, function (error, results) {
+        error ? console.log(error): console.log("insert one " + JSON.stringify(results))
         if (error) {
             return res.status(401).json({
                 message: 'Not able to add the burger'
             });
         }
-
+        console.log('***************', results)
         return res.json({
+            id: results.insertId,
             burger_name: burgerName,
-            id: burger.insertId,
-            is_favorite: 0
+            devoured: 0
         });
     });
 });
@@ -84,10 +71,16 @@ router.delete('/delete/:id', (req, res) => {
 });
 
 
-router.put("/:id/:value", function (req, res) {
+router.put("/:id", function (req, res) {
     const id = req.params.id;
-    const value = JSON.parse(req.params.value);
-
+    // const value = JSON.parse(req.params.value);
+    orm.destroy({
+        where: {
+          id:id
+        }
+      }).then(response => {
+        console.log(response);
+      });
     orm.updateOne(value, id, function (error, burger) {
         if (error) {
             return res.status(501).json({

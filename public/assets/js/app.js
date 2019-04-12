@@ -26,8 +26,9 @@ const burgerTemplate = (burgerName, id, is_favorite) => {
 const displayNewBurger = (burger) => {
     const name = burger.burger_name;
     const id = burger.id;
-    const is_favorite = burger.is_favorite;
-    const newBurger = burgerTemplate(name, id, is_favorite);
+    console.log(burger)
+    const devoured= burger.devoured;
+    const newBurger = burgerTemplate(name, id, devoured);
     $('.content-burger').prepend(newBurger);
     $('input').val('');
 };
@@ -47,8 +48,21 @@ $("#add-burger").on('click', function (event) {
                 burger_name: burgerName
             }
         })
-        .then(displayNewBurger)
-        .catch(addBurgerFail);
+        .then(
+            (result) => {
+                $('#burger-name').val('')
+                $('.content-burger').append(`<div id='wax' class="content-burger__list">
+                <p id="response">You may be on to something!</p>
+                <p id="yourBurger">${result.burger_name}</p>
+                <button class="btn btn-danger favorites" data-id="${result.id}">
+                  We Got It!
+                    
+                </button>
+            </div>`)
+           
+            }
+        )
+        .catch(err => console.log(err));
 });
 
 
@@ -63,18 +77,19 @@ const addBurgerToFavoriteFail = () => {
     alert('Fail adding it to Favorite');
 };
 
-
+//devoured burger
 $(document).on('click', '.favorites', function () {
     const id = $(this).attr('data-id');
+    console.log(id)
     const value = $(this).attr('data-state');
-
-    let condition = value === '0' ? false : true;
+    $("#wax").remove();
+    // let condition = value === '0' ? false : true;
 
     $.ajax({
-            url: `/${id}/${!condition}`,
-            method: 'PUT'
+            url: `/delete/${id}`,
+            method: 'DELETE'
         })
-        .then(addBurgerToFavorite)
+        .then(removeBurgerOnDelete)
         .catch(addBurgerToFavoriteFail);
 });
 
@@ -84,6 +99,7 @@ const removeBurgerOnDelete = (burger) => {
     const id = burger.id;
 
     $(`.all-burgers .burger[data-id=${id}]`).remove();
+    
 };
 
 

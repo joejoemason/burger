@@ -1,9 +1,11 @@
 {{> header }}
 
-<div class="container content">
-    <h1>Burger App</h1>
+<div id="middle" class="container content">
+    <h1 id="enter">Best Burger Name Sweepstakes!!</h1>
 
     {{> addBurger }}
+
+    <h1 id="Top5">Top 5 Burger Names Gets a Prize!!</h1>
 
     <div class="content-burger">
         {{#each result}} {{> displayBurger }}{{/each}}

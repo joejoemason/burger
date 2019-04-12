@@ -1,7 +1,13 @@
-<div class="content-burger__list" id={{id}}>
-    <img src="./images/lefteris-kallergis-581884-unsplash.jpg" alt="">
-    <p>{{burger_name}}</p>
-    <button class="btn btn-default favorites" data-id="{{id}}" data-state="{{is_favorite}}">
-        {{#if is_favorite}} unfavorite {{else}} add to Favorite {{/if}}
+<div class="content-burger__list" id="wax" >
+    <p id="response">You may be on to something!</p>
+    <p id="yourBurger">{{burger_name}}</p>
+    <button class="btn btn-danger favorites" data-id="{{id}}" data-state="{{devoured}}">
+         We Got It!
     </button>
 </div>
+
+<script>$("#div1").remove()</script>
+
+                {{!-- <p>${result.burger_name}</p>
+
+data-id="${result.id} --}}

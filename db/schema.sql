@@ -8,7 +8,7 @@ CREATE TABLE burgers
   AUTO_INCREMENT NOT NULL,
     burger_name VARCHAR
   (255) NOT NULL,
-    is_favorite BOOLEAN,
+    devoured NOT NULL,
 
     PRIMARY KEY
   (id));
